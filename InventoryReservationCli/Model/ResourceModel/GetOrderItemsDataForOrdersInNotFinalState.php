@@ -92,6 +92,9 @@ class GetOrderItemsDataForOrdersInNotFinalState
         $orderItems = $connection->fetchAll($query);
         $storeWebsiteIds = $this->getStoreWebsiteIds();
         foreach ($orderItems as $key => $orderItem) {
+            if(!isset( $storeWebsiteIds[$orderItem['store_id']])) {
+                continue;
+            }
             $orderItem['website_id'] = $storeWebsiteIds[$orderItem['store_id']];
             $orderItems[$key] = $orderItem;
         }
