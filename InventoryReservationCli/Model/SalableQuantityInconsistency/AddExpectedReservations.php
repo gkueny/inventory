@@ -67,7 +67,9 @@ class AddExpectedReservations
     public function execute(Collector $collector, int $bunchSize = 50, int $page = 1): void
     {
         foreach ($this->getOrderItemsDataForOrderInNotFinalState->execute($bunchSize, $page) as $data) {
-            $websiteId = (int)$data['website_id'];
+            if(!isset($data['website_id'])) {
+                continue;
+            }
             $stockId = (int)$this->stockByWebsiteIdResolver->execute((int)$websiteId)->getStockId();
 
             $reservation = $this->reservationBuilder
